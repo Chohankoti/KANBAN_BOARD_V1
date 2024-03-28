@@ -16,5 +16,6 @@ public class TaskRequest {
 	private String category;
 	private String deadline;
 	private String tag;
+	private String priority;
 
 }

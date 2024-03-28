@@ -26,6 +26,7 @@ public class TasksService {
 				.category(taskRequest.getCategory())
 				.deadline(taskRequest.getDeadline())
 				.tag(taskRequest.getTag())
+				.priority(taskRequest.getPriority())
 				.build();
     	
     	tasksRepository.save(task);
@@ -47,6 +48,7 @@ public class TasksService {
     					.category(task.getCategory())
     					.deadline(task.getDeadline())
     					.tag(task.getTag())
+    					.priority(task.getPriority())
     					.build();
     			
     }
@@ -72,6 +74,7 @@ public class TasksService {
             existingTask.setCategory(updatedTask.getCategory());
             existingTask.setDeadline(updatedTask.getDeadline());
             existingTask.setTag(updatedTask.getTag());
+            existingTask.setPriority(updatedTask.getPriority());
             tasksRepository.save(existingTask);
             return "Task Updated";
         } else {

@@ -31,4 +31,6 @@ public class Tasks {
 	private String deadline;
 	@Column(nullable = false)
 	private String tag;
+	@Column(nullable = false)
+	private String priority;
 }
