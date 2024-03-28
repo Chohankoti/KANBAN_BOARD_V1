@@ -4,8 +4,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ReactLoading from "react-loading";
 
-const NavBar = lazy(() => import('./Components/NavBar'));
-const Dashboard = lazy(() => import('./Components/Pages/Dashboard'));
+const NavBar = lazy(() => wait(500).then(()=>import('./Components/NavBar')));
+const Dashboard = lazy(() => wait(500).then(()=> import('./Components/Pages/Dashboard')));
+const Kanban = lazy(() => wait(500).then(()=> import('./Components/Pages/Kanban')));
+const Members = lazy(() => wait(500).then(()=> import('./Components/Pages/Members')));
+const CCode = lazy(() => wait(500).then(()=> import('./Components/Pages/CCode')));
+const Contact = lazy(() => wait(500).then(()=> import('./Components/Pages/Contact')));
+const Login = lazy(() => wait(500).then(()=> import('./Components/Pages/Login')));
+const Register = lazy(() => wait(500).then(()=> import('./Components/Pages/Register')));
+const ViewMessages = lazy(() => wait(500).then(()=> import('./Components/Pages/ViewMessages')));
+
 
 function App() {
   const notify = () => {
@@ -68,9 +76,16 @@ function App() {
         </div>
         }>
           <Routes>
-            <Route path='/' element={<NavBar />}>
-              <Route path='/' element={<Dashboard />} />
+            <Route path='/' element={<NavBar/>}>
+              <Route path='/' element={<Dashboard/>}/>
+              <Route path='/kanban' element={<Kanban/>}/>
+              <Route path='/members' element={<Members/>}/>
+              <Route path='/ccode' element={<CCode/>}/>
+              <Route path='/contact' element={<Contact/>}/>
+              <Route path='/msg' element={<ViewMessages/>}/>
             </Route>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
           </Routes>
         </Suspense>
       </BrowserRouter>
@@ -79,3 +94,8 @@ function App() {
 }
 
 export default App;
+
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

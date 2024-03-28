@@ -2,6 +2,12 @@ import React from 'react';
 import logo from './logo.png'
 import { Link, Outlet } from 'react-router-dom';
 import { RiDashboardFill } from "react-icons/ri";
+import { BsListCheck } from "react-icons/bs";
+import { IoPeopleSharp } from "react-icons/io5";
+import { BiCodeBlock } from "react-icons/bi";
+import { MdOutlineConnectWithoutContact } from "react-icons/md";
+import { AiOutlineLogout } from "react-icons/ai";
+
 function Navbar() {
   return (
 
@@ -17,7 +23,7 @@ function Navbar() {
               </div>
               
               <div className="flex justify-start items-start">
-              <Link to='/'>
+               <Link to='/' className='mr-5'>
                   <div className="relative">
                     <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
                   hover:text-gray-900 focus:outline-none hover:bg-gray-100">
@@ -33,10 +39,74 @@ function Navbar() {
                     </p>
                   </div>
                 </Link>
+                <Link to='/kanban' className='mr-5'>
+                  <div className="relative">
+                    <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
+                  hover:text-gray-900 focus:outline-none hover:bg-gray-100">
+                      <span className="justify-center items-center flex">
+                        <span className="justify-center items-center flex">
+                          <span className="items-center justify-center flex">
+                          <BsListCheck size={20} className="mr-1" />
+
+                          Tasks
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </Link>
+                <Link to='/members' className='mr-5'>
+                  <div className="relative">
+                    <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
+                  hover:text-gray-900 focus:outline-none hover:bg-gray-100">
+                      <span className="justify-center items-center flex">
+                        <span className="justify-center items-center flex">
+                          <span className="items-center justify-center flex">
+                          <IoPeopleSharp size={20} className="mr-1" />
+
+                           Members
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </Link>
+                <Link to='/ccode' className='mr-5'>
+                  <div className="relative">
+                    <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
+                  hover:text-gray-900 focus:outline-none hover:bg-gray-100">
+                      <span className="justify-center items-center flex">
+                        <span className="justify-center items-center flex">
+                          <span className="items-center justify-center flex">
+                          <BiCodeBlock size={20} className="mr-1" />
+
+                           Community Code
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </Link>
+                <Link to='/contact'>
+                  <div className="relative">
+                    <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
+                  hover:text-gray-900 focus:outline-none hover:bg-gray-100">
+                      <span className="justify-center items-center flex">
+                        <span className="justify-center items-center flex">
+                          <span className="items-center justify-center flex">
+                          <MdOutlineConnectWithoutContact size={20} className="mr-1" />
+
+                           Contact
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </Link>
               </div>
               <div className="md:space-x-6 justify-end items-center ml-auto flex space-x-3">
                 
-                <Link to='/home'>
+                <Link to='/msg'>
                   <div className="relative">
                     <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
                   hover:text-gray-900 focus:outline-none hover:bg-gray-100">
@@ -60,8 +130,22 @@ function Navbar() {
                 <div className="justify-center items-center flex relative">
                   <img src=""
                     className="object-cover btn- h-9 w-9 rounded-full mr-2 bg-gray-300" alt="image" />
-                  <p className="font-semibold text-sm">KOTI CHOHAN</p>
                 </div>
+                <Link to='/login'>
+                  <div className="relative">
+                    <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
+                  hover:text-gray-900 focus:outline-none hover:bg-gray-100">
+                      <span className="justify-center items-center flex">
+                        <span className="justify-center items-center flex">
+                          <span className="flex flex-col items-center justify-center flex">
+                           <AiOutlineLogout size={20} className="mr-1" />
+                           LogOut
+                          </span>
+                        </span>
+                      </span>
+                    </p>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
