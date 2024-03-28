@@ -12,7 +12,7 @@
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>backend</name>
-	<description>Kanban Board Version 1</description>
+	<description>kanban board version 1</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
