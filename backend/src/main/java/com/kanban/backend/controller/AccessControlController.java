@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/accesscontrols")
+@CrossOrigin("*")
 public class AccessControlController {
 
     private final AccessControlService accessControlService;
@@ -29,11 +30,17 @@ public class AccessControlController {
     public List<AccessControlResponse> getAllAccessControls() {
         return accessControlService.getAllAccessControls();
     }
-
+    
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Object getAccessControlById(@PathVariable int id) {
         return accessControlService.getAccessControlById(id);
+    }
+    
+    @GetMapping("/filterbyowner/{owner}")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getAccessControlByOwner(@PathVariable String owner) {
+        return accessControlService.getAccessControlByOwner(owner);
     }
 
     @PutMapping("/{id}")

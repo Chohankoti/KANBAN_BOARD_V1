@@ -40,6 +40,17 @@ public class AccessControlService {
                 .collect(Collectors.toList());
     }
     
+    
+    public Object getAccessControlByOwner(String owner) {
+        Optional<AccessControl> optionalAccessControl = accessControlRepository.findByOwner(owner);
+        if (optionalAccessControl.isPresent()) {
+            return optionalAccessControl.get();
+        } else {
+            return "Owner Not Found";
+        }
+    }
+
+    
     public Object getAccessControlById(int id) {
         Optional<AccessControl> optionalAccessControl = accessControlRepository.findById(id);
         if (optionalAccessControl.isPresent()) {

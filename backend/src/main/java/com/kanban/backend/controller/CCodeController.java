@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ccodes")
+@CrossOrigin("*")
 public class CCodeController {
 
     private final CCodeService ccodeService;
