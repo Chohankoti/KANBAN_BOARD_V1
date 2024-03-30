@@ -1,5 +1,6 @@
 package com.kanban.backend.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,5 +11,5 @@ import com.kanban.backend.entity.CCode;
 
 @Repository
 public interface AccessControlRepository extends JpaRepository<AccessControl, Integer>{
-	Optional<AccessControl> findByOwner(String owner);
+	List<AccessControl> findByOwner(String owner);
 }

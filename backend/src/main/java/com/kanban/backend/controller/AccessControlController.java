@@ -39,7 +39,7 @@ public class AccessControlController {
     
     @GetMapping("/filterbyowner/{owner}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getAccessControlByOwner(@PathVariable String owner) {
+    public List<AccessControl> getAccessControlByOwner(@PathVariable String owner) {
         return accessControlService.getAccessControlByOwner(owner);
     }
 

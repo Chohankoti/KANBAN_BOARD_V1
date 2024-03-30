@@ -14,6 +14,8 @@ const Login = lazy(() => wait(500).then(()=> import('./Components/Pages/Login'))
 const Register = lazy(() => wait(500).then(()=> import('./Components/Pages/Register')));
 const ViewMessages = lazy(() => wait(500).then(()=> import('./Components/Pages/ViewMessages')));
 
+const AddMember = lazy(() => wait(500).then(()=> import('./Components/Operations/AddMember')))
+
 
 function App() {
   const notify = () => {
@@ -80,6 +82,7 @@ function App() {
               <Route path='/' element={<Dashboard/>}/>
               <Route path='/kanban' element={<Kanban/>}/>
               <Route path='/members' element={<Members/>}/>
+              <Route path='/addmember' element={<AddMember/>}/>
               <Route path='/ccode' element={<CCode/>}/>
               <Route path='/contact' element={<Contact/>}/>
               <Route path='/msg' element={<ViewMessages/>}/>

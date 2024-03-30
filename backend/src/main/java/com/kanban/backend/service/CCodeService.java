@@ -56,6 +56,10 @@ public class CCodeService {
             return "CCode Not Found";
         }
     }
+    
+    public List<CCode> getCCodeByOwner(String Owner) {
+        return ccodeRepository.findByOwner(Owner);
+    }
 
     public String updateCCode(int ccodeId, CCode updatedCCode) {
         Optional<CCode> optionalCCode = ccodeRepository.findById(ccodeId);

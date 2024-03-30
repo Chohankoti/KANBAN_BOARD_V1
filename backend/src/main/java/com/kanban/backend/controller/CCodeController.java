@@ -36,6 +36,12 @@ public class CCodeController {
     public Object getCCodeById(@PathVariable int ccodeId) {
         return ccodeService.getCCodeById(ccodeId);
     }
+    
+    @GetMapping("/filterbyowner/{Owner}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CCode> getCCodeByOwner(@PathVariable String Owner) {
+        return ccodeService.getCCodeByOwner(Owner);
+    }
 
     @PutMapping("/{ccodeId}")
     @ResponseStatus(HttpStatus.OK)

@@ -41,13 +41,8 @@ public class AccessControlService {
     }
     
     
-    public Object getAccessControlByOwner(String owner) {
-        Optional<AccessControl> optionalAccessControl = accessControlRepository.findByOwner(owner);
-        if (optionalAccessControl.isPresent()) {
-            return optionalAccessControl.get();
-        } else {
-            return "Owner Not Found";
-        }
+    public List<AccessControl> getAccessControlByOwner(String owner) {
+        return accessControlRepository.findByOwner(owner);
     }
 
     
