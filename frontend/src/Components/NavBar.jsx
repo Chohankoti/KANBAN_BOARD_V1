@@ -92,9 +92,6 @@ function Navbar() {
                   absolute -top-px -right-1">2</p>
                   </div>
                 </Link>
-                <div className="justify-center items-center flex relative">
-                  <img src="" className="object-cover btn- h-9 w-9 rounded-full mr-2 bg-gray-300" alt="image" />
-                </div>
                 <Link to='/login'>
                   <div className="relative">
                     <p className="pt-1 pr-1 pb-1 pl-1 bg-white text-gray-700 rounded-full transition-all duration-200
