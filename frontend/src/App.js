@@ -82,7 +82,7 @@ function App() {
               <Route path='/' element={<Dashboard/>}/>
               <Route path='/kanban' element={<Kanban/>}/>
               <Route path='/members' element={<Members/>}/>
-              <Route path='/addmember' element={<AddMember/>}/>
+              <Route path='/addmember/:ccode' element={<AddMember/>}/>
               <Route path='/ccode' element={<CCode/>}/>
               <Route path='/contact' element={<Contact/>}/>
               <Route path='/msg' element={<ViewMessages/>}/>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { BsUnlockFill, BsFillLockFill } from 'react-icons/bs';
 import { BsFillTrash3Fill, BsFillPencilFill } from 'react-icons/bs';
 import { toast, Bounce } from 'react-toastify';
+import UpdateMember from '../Operations/UpdateMember';
 
 export default function Members() {
   const [members, setMembers] = useState([]);
@@ -11,6 +12,21 @@ export default function Members() {
   const [activeTab, setActiveTab] = useState(null); // Initialize activeTab as null initially
 
   let username = sessionStorage.getItem('username');
+
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  const [editingCode, setEditingCode] = useState(null);
+
+  const handleEdit = (code) => {
+    setEditingCode(code);
+    console.log("Editing data: ", code)
+    setShowShareOptions(true);
+  };
+
+  const handleCloseUpdate = () => {
+    setEditingCode(null);
+    setShowShareOptions(false);
+    fetchMembers();
+  };
 
   useEffect(() => {
     fetchMembers();
@@ -43,9 +59,7 @@ export default function Members() {
     setActiveTab(tab);
   };
 
-  const handleEdit = (code) => {
-    console.log('Editing data: ', code);
-  };
+  
 
   const deleteCode = async (id) => {
     try {
@@ -123,7 +137,7 @@ export default function Members() {
             >
               <div className="flex flex-col justify-center items-center overflow-x-auto mt-5">
                 <div className="mb-4">
-                  <Link to="/addmember" className="text-green-600 hover:text-indigo-900">
+                  <Link to={`/addmember/${activeTab.ccode}`} className="text-green-600 hover:text-indigo-900">
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add</button>
                   </Link>
                 </div>
@@ -157,6 +171,7 @@ export default function Members() {
           ))}
         </div>
       </div>
+      {showShareOptions && <UpdateMember code={editingCode} onClose={handleCloseUpdate} />}
     </div>
   );
 }

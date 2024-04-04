@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import { toast, Bounce } from 'react-toastify';
 
 export default function MemberForm() {
-    const user = 'chohan';
+  const {ccode} = useParams();
+  let username = sessionStorage.getItem('username');
     const navigation = useNavigate();
 
   const [formData, setFormData] = useState({
     empid: '',
     username: '',
     company: '',
-    ccode: '2100031265',
-    owner: user,
+    ccode: ccode,
+    owner: username,
     updateaccess: false,
     deleteaccess: false,
     createaccess: false,
@@ -34,8 +37,21 @@ export default function MemberForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission, e.g., send data to backend
     console.log(formData);
+    axios.post('http://localhost:8081/accesscontrols',formData)
+    .then((response)=>{
+      toast.success("Member Added Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce, 
+      });
+    })
     navigation('/members')
   };
 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BsFillTrash3Fill, BsFillPencilFill, BsPlus } from 'react-icons/bs';
+import { toast, Bounce } from 'react-toastify';
 import axios from 'axios';
 import UpdateCCode from '../Operations/UpdateCCode';
+
 
 export default function CCode() {
   let username = sessionStorage.getItem('username');
@@ -38,6 +40,17 @@ export default function CCode() {
   const deleteCode = async (id) => {
     try {
       await axios.delete(`http://localhost:8081/ccodes/${id}`);
+      toast.success("Delete Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce, // Use Bounce transition
+      });
       fetchCodes();
     } catch (error) {
       console.error('Error deleting code:', error);
@@ -48,7 +61,17 @@ export default function CCode() {
     try {
       console.log('Adding code:', newCode);
       await axios.post('http://localhost:8081/ccodes', newCode);
-      console.log('Code added successfully');
+      toast.success("Added Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce, // Use Bounce transition
+      });
       fetchCodes();
       setNewCode({ ccode: '', tag: '' });
     } catch (error) {
