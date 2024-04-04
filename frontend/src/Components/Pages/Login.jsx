@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import axios from 'axios';
+import { toast, Bounce } from 'react-toastify';
 
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
+
+  const navigation = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -22,10 +27,48 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-  };
+    try {
+        const response = await axios.post('http://localhost:8081/users/login', formData);
+        
+        const msg = response.data.message
+        if(msg === 'Login successful')
+        {
+          toast.success(msg, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce, // Use Bounce transition
+          });
+
+          sessionStorage.setItem('username', formData.username);
+
+          navigation('/');
+        }        
+    } catch (error) {
+      const errmsg = error.response.data.message;
+      toast.warn(errmsg, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    }
+};
+
+
 
   return (
     <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
@@ -47,8 +90,8 @@ export default function Login() {
         <form className="w-full max-w-xl bg-white rounded-lg shadow-md p-6" onSubmit={handleSubmit}>
           <div className="flex flex-wrap -mx-3 mb-6">
             <div className="w-full md:w-full px-3 mb-6">
-              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor='email'>Email address</label>
-              <input className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none" type='email' id='email' name='email' value={formData.email} onChange={handleChange} required />
+              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor='username'>username</label>
+              <input className="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none" type='text' id='username' name='username' value={formData.username} onChange={handleChange} required />
             </div>
             <div className="w-full md:w-full px-3 mb-6 relative">
               <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor='password'>Password</label>

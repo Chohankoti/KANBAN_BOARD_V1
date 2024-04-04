@@ -2,12 +2,18 @@ package com.kanban.backend.service;
 
 import com.kanban.backend.dto.UserRequest;
 import com.kanban.backend.dto.UserResponse;
+import com.kanban.backend.dto.UserLogin;
 import com.kanban.backend.entity.Users;
 import com.kanban.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,27 +22,30 @@ import java.util.stream.Collectors;
 public class UsersService {
 
     private final UserRepository usersRepository;
-
-    public String createUser(UserRequest userRequest) {
+    
+    public ResponseEntity<Map<String, String>> createUser(UserRequest userRequest) {
         Optional<Users> existingUserByUsername = usersRepository.findByUsername(userRequest.getUsername());
         Optional<Users> existingUserByEmpid = usersRepository.findByEmpid(userRequest.getEmpid());
         Optional<Users> existingUserByEmail = usersRepository.findByEmail(userRequest.getEmail());
 
-        StringBuilder errorMessage = new StringBuilder("User already exists with:");
-
-        if (existingUserByUsername.isPresent()) {
-            errorMessage.append(" username,");
-        }
-        if (existingUserByEmpid.isPresent()) {
-            errorMessage.append(" employee id,");
-        }
-        if (existingUserByEmail.isPresent()) {
-            errorMessage.append(" email,");
-        }
+        Map<String, String> response = new HashMap<>();
 
         if (existingUserByUsername.isPresent() || existingUserByEmpid.isPresent() || existingUserByEmail.isPresent()) {
-        	int length = errorMessage.toString().length();
-            return errorMessage.toString().substring(0, length-1);
+            StringBuilder errorMessage = new StringBuilder("User already exists with:");
+
+            if (existingUserByUsername.isPresent()) {
+                errorMessage.append(" username,");
+            }
+            if (existingUserByEmpid.isPresent()) {
+                errorMessage.append(" employee id,");
+            }
+            if (existingUserByEmail.isPresent()) {
+                errorMessage.append(" email,");
+            }
+
+            int length = errorMessage.length();
+            response.put("message", errorMessage.substring(0, length - 1));
+            return ResponseEntity.badRequest().body(response);
         }
 
         Users user = Users.builder()
@@ -51,7 +60,31 @@ public class UsersService {
                 .build();
 
         usersRepository.save(user);
-        return "User Created";
+        response.put("message", "User Created");
+        return ResponseEntity.ok(response);
+    }
+    
+    public ResponseEntity<Map<String, String>> userLogin(UserLogin userLogin) {
+        // Retrieve user by username
+        Optional<Users> userOptional = usersRepository.findByUsername(userLogin.getUsername());
+        
+        // Check if user exists and if the password matches
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            if (user.getPassword().equals(userLogin.getPassword())) {
+                Map<String, String> responseBody = new HashMap<>();
+                responseBody.put("message", "Login successful");
+                return ResponseEntity.ok(responseBody); 
+            } else {
+                Map<String, String> responseBody = new HashMap<>();
+                responseBody.put("message", "Invalid password");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody); 
+            }
+        } else {
+            Map<String, String> responseBody = new HashMap<>();
+            responseBody.put("message", "User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+        }
     }
 
 
@@ -79,7 +112,7 @@ public class UsersService {
         if (optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
-            return "User Not Found";
+            return "UserName Not Found";
         }
     }
 

@@ -9,14 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class UserRequest {
+public class UserLogin {
 	
-	private String firstname;
-	private String lastname;
 	private String username;
-	private String company;
-	private Long empid;
-	private String image;
-	private String email;
 	private String password;
 }

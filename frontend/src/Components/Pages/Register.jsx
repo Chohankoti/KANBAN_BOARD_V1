@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import { toast, Bounce } from 'react-toastify';
 
 export default function Register() {
-  // State variables to hold form data
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -14,7 +15,8 @@ export default function Register() {
     password: ''
   });
 
-  // Handler function to update form data
+  const navigation = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -23,12 +25,47 @@ export default function Register() {
     }));
   };
 
-  // Submit function
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can handle form submission here
     console.log(formData);
-  };
+    try {
+        const response = await axios.post('http://localhost:8081/users', formData);
+        
+        const msg = response.data.message
+        if(msg === 'User Created')
+        {
+          toast.success(msg, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce, // Use Bounce transition
+          });
+          
+          navigation('/login');
+        }        
+    } catch (error) {
+        const errmsg = error.response.data.message;
+        toast.warn(errmsg, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
+    }
+};
+
+
+
 
   return (
     <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">

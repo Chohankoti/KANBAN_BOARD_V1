@@ -1,14 +1,17 @@
 package com.kanban.backend.controller;
 
 import com.kanban.backend.dto.UserRequest;
+import com.kanban.backend.dto.UserLogin;
 import com.kanban.backend.dto.UserResponse;
 import com.kanban.backend.entity.Users;
 import com.kanban.backend.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,9 +24,16 @@ public class UsersController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<Map<String, String>> createUser(@RequestBody UserRequest userRequest) {
         return usersService.createUser(userRequest);
     }
+    
+    
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> userLogin(@RequestBody UserLogin userLogin) {
+        return usersService.userLogin(userLogin);
+    }
+
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

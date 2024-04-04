@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.png'
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { RiDashboardFill } from "react-icons/ri";
 import { BsListCheck } from "react-icons/bs";
 import { IoPeopleSharp } from "react-icons/io5";
@@ -9,6 +9,18 @@ import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { AiOutlineLogout } from "react-icons/ai";
 
 function Navbar() {
+  const usenavigate = useNavigate();
+  let username;
+  useEffect(() => {
+    username = sessionStorage.getItem('username');
+    if (username === '' || username === null) {
+      usenavigate('/login');
+    }
+    else {
+      usenavigate('/')
+    }
+  }, []);
+
   return (
     <div>
       <div className="pt-0 pr-0 pb-0 pl-0 mt-0 mr-0 mb-0 ml-0"></div>
