@@ -4,8 +4,9 @@ import axios from 'axios';
 import UpdateCCode from '../Operations/UpdateCCode';
 
 export default function CCode() {
+  let username = sessionStorage.getItem('username');
   const [codes, setCodes] = useState([]);
-  const [newCode, setNewCode] = useState({ ccode: '', tag: '', owner: 'chohan' });
+  const [newCode, setNewCode] = useState({ ccode: '', tag: '', owner: username });
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [editingCode, setEditingCode] = useState(null);
 
@@ -27,7 +28,7 @@ export default function CCode() {
 
   const fetchCodes = async () => {
     try {
-      const response = await axios.get('http://localhost:8081/ccodes');
+      const response = await axios.get(`http://localhost:8081/ccodes/filterbyowner/${username}`);
       setCodes(response.data);
     } catch (error) {
       console.error('Error fetching codes:', error);
@@ -67,7 +68,7 @@ export default function CCode() {
           <div className="text-sm font-medium text-gray-900">{code.ccode}</div>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">{code.tag}</div>
+          <div className="text-sm font-medium text-gray-900">{code.tag}</div>
         </td>
         <td className="whitespace-nowrap text-left text-sm font-medium">
           {!showShareOptions && (
@@ -122,19 +123,19 @@ export default function CCode() {
               <tr>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                 >
                   Code
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                 >
                   Tag
                 </th>
                 <th
                   scope="col"
-                  className="text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="text-left text-xs font-bold text-gray-500 uppercase tracking-wider"
                 >
                   Action
                 </th>

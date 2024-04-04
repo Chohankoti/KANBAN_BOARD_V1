@@ -72,7 +72,7 @@ export default function Kanban() {
 
                 {/* Right Content */}
                 <div className="flex flex-col justify-start items-center p-4 w-full">
-                    <h1 className="text-2xl font-bold mb-4 text-center">Team Project Board of {activeTabLeft.name}</h1>
+                    <h1 className="text-2xl font-bold mb-4 text-center">{activeTabTop.name} Team Project Board of {activeTabLeft.name}</h1>
                     {CardData.map((data, index) => (
                         <div
                             key={index}
