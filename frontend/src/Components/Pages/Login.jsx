@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from 'axios';
@@ -10,6 +10,10 @@ export default function Login() {
     username: '',
     password: ''
   });
+
+  useEffect(() => {
+    sessionStorage.clear();             
+}, []);
 
   const navigation = useNavigate();
 

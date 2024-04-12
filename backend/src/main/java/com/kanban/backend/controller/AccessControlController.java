@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,6 +34,7 @@ public class AccessControlController {
         return accessControlService.getAllAccessControls();
     }
     
+       
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Object getAccessControlById(@PathVariable int id) {
@@ -42,7 +46,19 @@ public class AccessControlController {
     public List<AccessControl> getAccessControlByOwner(@PathVariable String owner) {
         return accessControlService.getAccessControlByOwner(owner);
     }
-
+    
+    @GetMapping("/filterbyusername/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AccessControl> getByUsernameAccessControls(@PathVariable String username) {
+        return accessControlService.getByUsernameAccessControls(username);
+    }
+    
+    @GetMapping("/getdistinctownersbyusername/{username}")
+    @ResponseStatus(HttpStatus.OK)
+    public  List<Map<String, String>> getDistinctByUsernameAccessControls(@PathVariable String username) {
+        return accessControlService.getDistinctOwnersByUsername(username);
+    }
+    
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String updateAccessControl(@PathVariable int id, @RequestBody AccessControlRequest request) {

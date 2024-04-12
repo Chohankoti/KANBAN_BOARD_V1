@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import CardGrid from './CardGrid';
 import Cards from './Cards';
 import { Tabs } from 'antd';
+import axios from 'axios';
 
 export default function Kanban() {
+    let username = sessionStorage.getItem('username');
+    const [distinctowners, setdistinctowners] = useState([]);
+    const [ac, setac] = useState([]);
+
     const CardData = [
         {
             name: "31265",
@@ -24,30 +29,56 @@ export default function Kanban() {
             img: "https://images.unsplash.com/photo-1533986690673-c50390c01cfa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
         },
     ];
-    const [activeTabTop, setActiveTabTop] = useState(CardData[0]);
-    const [activeTabLeft, setActiveTabLeft] = useState(CardData[0]);
+    const [activeTabTop, setActiveTabTop] = useState(null);
+    const [activeTabLeft, setActiveTabLeft] = useState(null);
 
     useEffect(() => {
-    }, [activeTabTop, activeTabLeft])
+        fetchDistinctOwners();
+        fetchAccessControls();        
+    }, [])
+
+    const fetchDistinctOwners = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8081/accesscontrols/getdistinctownersbyusername/${username}`);
+            setdistinctowners(response.data);
+            setActiveTabTop(response.data[0]); // Set initial value for activeTabTop
+        } catch (error) {
+            console.error('Error fetching distinct owners:', error);
+        }
+    }
+    
+    const fetchAccessControls = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8081/accesscontrols/filterbyowner/${username}`);
+            setac(response.data);
+            setActiveTabLeft(CardData[0]); // Set initial value for activeTabLeft
+        } catch (error) {
+            console.error('Error fetching access controls:', error);
+        }
+    }
+
+
 
     return (
         <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
             {/* Top Tabs */}
             <div className="flex justify-center mt-4 py-1">
-                {CardData.map((tab, index) => (
+                {distinctowners.map((tab, index) => (
                     <button
                         key={index}
                         className={`${activeTabTop?.id === tab.id
                             ? "bg-blue-500 text-white"
                             : "bg-gray-300 text-black"
-                            } max-w-[100px] w-full py-2 rounded-md mx-1 font-semibold`}
+                            } px-4 py-2 rounded-md mx-1 font-semibold`}
                         onClick={() => setActiveTabTop(tab)}
                         role="tab"
                         aria-selected={activeTabTop === tab}
+                        style={{ width: `${tab.length * 10 + 100}px` }} // Adjust the width dynamically
                     >
-                        {tab.name}
+                        {tab.owner}
                     </button>
                 ))}
+
             </div>
 
             {/* Content */}
@@ -72,7 +103,7 @@ export default function Kanban() {
 
                 {/* Right Content */}
                 <div className="flex flex-col justify-start items-center p-4 w-full">
-                    <h1 className="text-2xl font-bold mb-4 text-center">{activeTabTop.name} Team Project Board of {activeTabLeft.name}</h1>
+                    <h1 className="text-2xl font-bold mb-4 text-center">{activeTabTop && activeTabLeft ? `${activeTabTop.owner} Team Project Board of ${activeTabLeft.name}` : ''}</h1>
                     {CardData.map((data, index) => (
                         <div
                             key={index}
@@ -135,7 +166,7 @@ export default function Kanban() {
                                 </div>
 
 
-                            </div>                            
+                            </div>
                         </div>
                     ))}
                 </div>

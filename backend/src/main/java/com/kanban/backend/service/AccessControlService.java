@@ -7,7 +7,10 @@ import com.kanban.backend.repository.AccessControlRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,6 +46,23 @@ public class AccessControlService {
     
     public List<AccessControl> getAccessControlByOwner(String owner) {
         return accessControlRepository.findByOwner(owner);
+    }
+    
+    public List<AccessControl> getByUsernameAccessControls(String username) {
+        return accessControlRepository.findByUsername(username);
+    }
+    
+    public List<Map<String, String>> getDistinctOwnersByUsername(String username) {
+        List<String> distinctOwners = accessControlRepository.findDistinctOwnersByUsername(username);
+        List<Map<String, String>> ownersList = new ArrayList<>();
+
+        for (String owner : distinctOwners) {
+            Map<String, String> ownerMap = new HashMap<>();
+            ownerMap.put("owner", owner);
+            ownersList.add(ownerMap);
+        }
+
+        return ownersList;
     }
 
     
