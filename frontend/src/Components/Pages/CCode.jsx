@@ -113,7 +113,7 @@ export default function CCode() {
   };
 
   return (
-    <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
+    <div className="flex flex-col h-screen text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
       <div className="px-10 mt-3">
         <h1 className="text-2xl font-bold flex flex-grow justify-center items-center">Community Code</h1>
       </div>

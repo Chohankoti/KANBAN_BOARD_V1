@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import CardGrid from './CardGrid';
 import Cards from './Cards';
 import { Tabs } from 'antd';
 import axios from 'axios';
@@ -46,7 +45,7 @@ export default function Kanban() {
     };
 
     return (
-        <div className="flex flex-col w-screen h-screen overflow-auto text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
+        <div className="flex flex-col  text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
             {/* Top Tabs */}
             <div className="flex justify-center mt-4 py-1">
                 {distinctowners.map((tab, index) => (
