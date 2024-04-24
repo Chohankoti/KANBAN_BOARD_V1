@@ -16,6 +16,8 @@ const ViewMessages = lazy(() => wait(500).then(()=> import('./Components/Pages/V
 
 const AddMember = lazy(() => wait(500).then(()=> import('./Components/Operations/AddMember')))
 
+const AddTask = lazy(() => wait(500).then(()=> import('./Components/Operations/AddTask')));
+
 
 function App() {
   const notify = () => {
@@ -86,6 +88,7 @@ function App() {
               <Route path='/ccode' element={<CCode/>}/>
               <Route path='/contact' element={<Contact/>}/>
               <Route path='/msg' element={<ViewMessages/>}/>
+              <Route path='/addtask/:category/:ccode' element={<AddTask/>}/>
             </Route>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>

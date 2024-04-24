@@ -6,7 +6,7 @@ import { toast, Bounce } from 'react-toastify';
 export default function MemberForm() {
   const {ccode} = useParams();
   let username = sessionStorage.getItem('username');
-    const navigation = useNavigate();
+  const navigation = useNavigate();
 
   const [formData, setFormData] = useState({
     empid: '',
