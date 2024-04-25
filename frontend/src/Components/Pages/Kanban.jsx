@@ -11,7 +11,7 @@ export default function Kanban() {
     const navigation = useNavigate();
     const [distinctowners, setdistinctowners] = useState([]);
     const [ac, setac] = useState([]);
-    const [tasks, setTasks] = useState([]);
+    const [task, settask] = useState([]);
     const [activeTabTop, setActiveTabTop] = useState(null);
     const [activeTabLeft, setActiveTabLeft] = useState(null);
     const prevActiveTabTopRef = useRef();
@@ -26,6 +26,22 @@ export default function Kanban() {
             prevActiveTabTopRef.current = activeTabTop;
         }
     }, [activeTabTop]);
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            if (activeTabLeft) {
+                try {
+                    const category = Category.find(cat => cat.title === activeTabLeft.category);
+                    const response = await axios.get(`http://localhost:8081/tasks/filterbycategoryandccode/${category.title}/${activeTabLeft.ccode}`);
+                    settask(response.data);
+                } catch (error) {
+                    console.error('Error fetching tasks:', error);
+                }
+            }
+        };
+        fetchTasks();
+    }, [activeTabLeft]);
+    
 
     const fetchDistinctOwners = async () => {
         try {
@@ -51,15 +67,6 @@ export default function Kanban() {
     const AddTask = (category, ccode) => {
         navigation(`../addtask/${category}/${ccode}`);
     }
-
-    const filterbycategoryandccode = async (category, ccode) => {
-        try {
-            const response = await axios.get(`http://localhost:8081/tasks/filterbycategoryandccode/${category}/${ccode}`);
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-        }
-    };
 
 
     return (
@@ -121,20 +128,21 @@ export default function Kanban() {
                                             <span className="block text-sm font-semibold">{cat.title}</span>
                                             <span className="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30">6</span>
                                             <button className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"
-                                                onClick={async () => {
-                                                    try {
-                                                        const tasks = await filterbycategoryandccode(cat.title, activeTabLeft.ccode);
-                                                        setTasks(tasks);
-                                                    } catch (error) {
-                                                        console.error('Error fetching tasks:', error);
-                                                    }
-                                                }}>
+                                                onClick={() => AddTask(cat.title, activeTabLeft.ccode)}>
                                                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                                 </svg>
                                             </button>
                                         </div>
-                                        <Cards tasks={tasks} />
+                                        <div className="flex flex-col pb-2 overflow-hidden">
+                                            {task.length > 0 ? (
+                                                task.map((taskItem, index) => (
+                                                    <Cards key={index} task={taskItem} />
+                                                ))
+                                            ) : (
+                                                <p>No Data</p>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
