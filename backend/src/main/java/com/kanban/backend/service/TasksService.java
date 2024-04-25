@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +38,21 @@ public class TasksService {
     {        
     	List<Tasks> tasks = tasksRepository.findAll();
     	return tasks.stream().map(this::mapToTaskResponse).toList();
+    }
+    
+    public List<TaskResponse> filterbyccodeandcategory(String category, Long ccode) {
+        return tasksRepository.findByCategoryAndCcode(category,ccode)
+                .stream()
+                .map(task -> TaskResponse.builder()
+                        .id(task.getId())
+                        .ccode(task.getCcode())
+                        .title(task.getTitle())
+                        .category(task.getCategory())
+                        .deadline(task.getDeadline())
+                        .tag(task.getTag())
+                        .priority(task.getPriority())
+                        .build())
+                .collect(Collectors.toList());
     }
     
     private TaskResponse mapToTaskResponse(Tasks task)
