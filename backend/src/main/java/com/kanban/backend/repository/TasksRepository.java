@@ -10,4 +10,5 @@ import com.kanban.backend.entity.Tasks;
 @Repository
 public interface TasksRepository extends JpaRepository<Tasks, Integer>{
 	List<Tasks> findByCategoryAndCcode(String category, Long ccode);
+	List<Tasks> findByCcode(Long ccode);
 }

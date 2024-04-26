@@ -1,29 +1,15 @@
 import React from 'react'
 export default function Cards({ task }) {
     console.log("Card task",task)
-    if (!task) {
-        // If task is undefined, you can return a loading state or placeholder content
-        return (
-            <div className="flex flex-col pb-2 overflow-hidden">
-                <h1>Loading...</h1>
-            </div>
-        );
-    }
-
-    // Once task data is available, render the actual content
+    
     return (
-        <>
-        <h1>hello</h1>
-        {/*
      
         <div class="flex flex-col pb-2 overflow-hidden">
-            {task.length > 0 ? (
-                task.map((task) => (
                     <div className="relative flex flex-col items-start p-4 mt-3 bg-white rounded-lg cursor-pointer bg-opacity-90 group hover:bg-opacity-100" draggable="true">
-                        <span className={`flex items-center h-6 px-3 text-xs font-semibold bg-pink-100 rounded-full ${task.priority === "High" ? "text-pink-500" : task.priority === "Low" ? "text-green-500" : "text-yellow-500"}`}>{task.priority}</span>
-                        <h4 className="mt-3 text-sm font-medium">{task.title}.</h4>
-                        <p className="mt-3 text-sm font-medium">
-                            {task.tag.length > 10 ? `${task.tag.substring(0, 10)}...` : task.tag}
+                        <span className={`flex items-center h-6 px-3 text-xs font-semibold  rounded-full ${task.priority === "High" ? "bg-pink-100 text-pink-500" : task.priority === "Low" ? "bg-green-100 text-green-500" : "bg-yellow-100 text-yellow-500"}`}>{task.priority}</span>
+                        <h4 className="mt-3 text-sm font-medium">{task.title}</h4>
+                        <p className="mt-3 text-sm font-small">
+                            {task.tag.length > 10 ? `${task.tag.substring(0, 10)}...` : task.tag}.
                         </p>
                         <div className="flex items-center w-full mt-3 text-xs font-medium text-gray-400">
                             <div className="flex items-center ">
@@ -62,12 +48,6 @@ export default function Cards({ task }) {
                             <img className="w-6 h-6 ml-auto rounded-full" src="https://randomuser.me/api/portraits/women/26.jpg" alt="user" />
                         </div>
                     </div>
-                ))) : (
-                <p className="text-center text-red-500 font-semibold m-10">No Task is Assigned</p>
-            )}
-
         </div>
-        */}
-        </>
     );
 }

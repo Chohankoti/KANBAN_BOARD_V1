@@ -36,10 +36,10 @@ public class TasksController {
         return tasksService.getAllTasks();
     }
     
-    @GetMapping("/filterbycategoryandccode/{category}/{ccode}")
+    @GetMapping("/filterbyccode/{ccode}")
     @ResponseStatus(HttpStatus.OK)
-    public List<TaskResponse> filterbyccodeandcategory( @PathVariable String category,  @PathVariable Long ccode) {
-        return tasksService.filterbyccodeandcategory(category,ccode);
+    public List<TaskResponse> filterbyccode( @PathVariable Long ccode) {
+        return tasksService.filterbyccode(ccode);
     }
 
     @GetMapping("/{taskId}")

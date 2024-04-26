@@ -26,22 +26,13 @@ export default function Kanban() {
             prevActiveTabTopRef.current = activeTabTop;
         }
     }, [activeTabTop]);
-
+  
     useEffect(() => {
-        const fetchTasks = async () => {
-            if (activeTabLeft) {
-                try {
-                    const category = Category.find(cat => cat.title === activeTabLeft.category);
-                    const response = await axios.get(`http://localhost:8081/tasks/filterbycategoryandccode/${category.title}/${activeTabLeft.ccode}`);
-                    settask(response.data);
-                } catch (error) {
-                    console.error('Error fetching tasks:', error);
-                }
-            }
-        };
-        fetchTasks();
+        if (activeTabLeft) {
+            fetchTasks(activeTabLeft);
+        }
     }, [activeTabLeft]);
-    
+
 
     const fetchDistinctOwners = async () => {
         try {
@@ -62,7 +53,20 @@ export default function Kanban() {
             console.error('Error fetching access controls:', error);
         }
     };
+    
+    const fetchTasks = async (tab) => {
+        try {
+            const response = await axios.get(`http://localhost:8081/tasks/filterbyccode/${tab.ccode}`);
+            settask(response.data);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
+    }
 
+    const filtertasks = (category) => {
+        return task.filter((task) => task.category === category);
+    }
+    
 
     const AddTask = (category, ccode) => {
         navigation(`../addtask/${category}/${ccode}`);
@@ -101,7 +105,7 @@ export default function Kanban() {
                                 ? "bg-blue-500 text-white"
                                 : "bg-gray-300 text-black"
                                 } w-full py-2 rounded-md mb-2 font-semibold`}
-                            onClick={() => setActiveTabLeft(tab)}
+                            onClick={() => {setActiveTabLeft(tab); fetchTasks(tab)}}
                             role="tab"
                             aria-selected={activeTabLeft === tab}
                         >
@@ -121,7 +125,7 @@ export default function Kanban() {
                                 : "invisible"
                                 }`}
                         >
-                            <div className="flex flex-grow justify-center px-10 mt-4 space-x-6 overflow-auto">
+                            <div className="flex flex-grow justify-center h-screen px-10 mt-4 space-x-6 overflow-auto">
                                 {Category.map((cat, index) => (
                                     <div key={index} className="w-72">
                                         <div className="flex items-center h-10 px-2">
@@ -135,12 +139,12 @@ export default function Kanban() {
                                             </button>
                                         </div>
                                         <div className="flex flex-col pb-2 overflow-hidden">
-                                            {task.length > 0 ? (
-                                                task.map((taskItem, index) => (
+                                            {filtertasks(cat.title).length > 0 ? (
+                                                filtertasks(cat.title).map((taskItem, index) => (
                                                     <Cards key={index} task={taskItem} />
                                                 ))
                                             ) : (
-                                                <p>No Data</p>
+                                                <p className="text-center text-red-500 font-semibold m-10">No Task is Assigned</p>
                                             )}
                                         </div>
                                     </div>

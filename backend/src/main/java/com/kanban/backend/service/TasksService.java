@@ -40,9 +40,10 @@ public class TasksService {
     	return tasks.stream().map(this::mapToTaskResponse).toList();
     }
     
-    public List<TaskResponse> filterbyccodeandcategory(String category, Long ccode) {
-        return tasksRepository.findByCategoryAndCcode(category,ccode)
-                .stream()
+    
+    public List<TaskResponse> filterbyccode( Long ccode) {
+        return tasksRepository.findByCcode(ccode)
+        		.stream()
                 .map(task -> TaskResponse.builder()
                         .id(task.getId())
                         .ccode(task.getCcode())
