@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 export default function Cards({ task, onDelete }) {
-    console.log("Task",task)
     const handleDelete = () => {
         // Call the onDelete function passed from the parent component
         onDelete(task.id);

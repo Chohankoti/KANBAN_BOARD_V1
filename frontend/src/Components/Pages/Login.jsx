@@ -54,7 +54,7 @@ export default function Login() {
 
           sessionStorage.setItem('username', formData.username);
 
-          navigation('/');
+          navigation('/kanban');
         }        
     } catch (error) {
       const errmsg = error.response.data.message;

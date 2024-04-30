@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cards from './Cards';
 import { Tabs } from 'antd';
+import { FaGithub } from "react-icons/fa";
 import axios from 'axios';
 
 import { Category } from '../utils/Category';
@@ -46,6 +47,7 @@ export default function Kanban() {
     useEffect(() => {
         if (activeTabLeft) {
             fetchTasks(activeTabLeft);
+            console.log(activeTabTop)
         }
     }, [activeTabLeft]);
 
@@ -141,7 +143,17 @@ export default function Kanban() {
 
                 {/* Right Content */}
                 <div className="flex flex-col justify-start items-center p-4 w-full">
-                    <h1 className="text-2xl font-bold mb-4 text-center">{activeTabTop && activeTabLeft ? `${activeTabTop.owner} Team Project Board of ${activeTabLeft.ccode}` : ''}</h1>
+                    <div className='flex flex-row justify-start'>
+                        <div className='mr-3'>
+                            <h1 className="text-2xl font-bold mb-4 text-center">{activeTabTop && activeTabLeft ? `${activeTabTop.owner} Team Project Board of ${activeTabLeft.ccode} ` : ''}</h1>
+                        </div>
+                        <div>
+                            <a href={`https://github.com/`}>
+                                <FaGithub className="h-8 w-9" />
+                            </a>
+                        </div>
+                    </div>
+
                     {ac.map((acdata, index) => (
                         <div
                             key={index}
