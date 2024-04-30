@@ -17,6 +17,7 @@ const ViewMessages = lazy(() => wait(500).then(()=> import('./Components/Pages/V
 const AddMember = lazy(() => wait(500).then(()=> import('./Components/Operations/AddMember')))
 
 const AddTask = lazy(() => wait(500).then(()=> import('./Components/Operations/AddTask')));
+const UpdateTask = lazy(() => wait(500).then(()=> import('./Components/Operations/UpdateTask')));
 
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
               <Route path='/contact' element={<Contact/>}/>
               <Route path='/msg' element={<ViewMessages/>}/>
               <Route path='/addtask/:category/:ccode' element={<AddTask/>}/>
+              <Route path='/edittask/:id' element={<UpdateTask/>}/>
             </Route>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>

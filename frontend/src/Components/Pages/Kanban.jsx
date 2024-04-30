@@ -5,6 +5,7 @@ import { Tabs } from 'antd';
 import axios from 'axios';
 
 import { Category } from '../utils/Category';
+import UpdateTask from '../Operations/UpdateTask';
 
 export default function Kanban() {
     let username = sessionStorage.getItem('username');
@@ -16,6 +17,21 @@ export default function Kanban() {
     const [activeTabLeft, setActiveTabLeft] = useState(null);
     const prevActiveTabTopRef = useRef();
 
+
+    const [toggle, settoggle] = useState(false);
+    const [editingCode, setEditingCode] = useState(null);
+
+    const handleEdit = (code) => {
+        setEditingCode(code);
+        settoggle(true);
+    };
+
+    const handleCloseUpdate = () => {
+        setEditingCode(null);
+        settoggle(false);
+        fetchTasks(activeTabLeft);
+    };
+
     useEffect(() => {
         fetchDistinctOwners();
     }, []);
@@ -26,7 +42,7 @@ export default function Kanban() {
             prevActiveTabTopRef.current = activeTabTop;
         }
     }, [activeTabTop]);
-  
+
     useEffect(() => {
         if (activeTabLeft) {
             fetchTasks(activeTabLeft);
@@ -53,7 +69,7 @@ export default function Kanban() {
             console.error('Error fetching access controls:', error);
         }
     };
-    
+
     const fetchTasks = async (tab) => {
         try {
             const response = await axios.get(`http://localhost:8081/tasks/filterbyccode/${tab.ccode}`);
@@ -66,7 +82,16 @@ export default function Kanban() {
     const filtertasks = (category) => {
         return task.filter((task) => task.category === category);
     }
-    
+
+    const deleteTask = async (taskId) => {
+        try {
+            await axios.delete(`http://localhost:8081/tasks/${taskId}`);
+            fetchTasks(activeTabLeft);
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
+    };
+
 
     const AddTask = (category, ccode) => {
         navigation(`../addtask/${category}/${ccode}`);
@@ -105,7 +130,7 @@ export default function Kanban() {
                                 ? "bg-blue-500 text-white"
                                 : "bg-gray-300 text-black"
                                 } w-full py-2 rounded-md mb-2 font-semibold`}
-                            onClick={() => {setActiveTabLeft(tab); fetchTasks(tab)}}
+                            onClick={() => { setActiveTabLeft(tab); fetchTasks(tab) }}
                             role="tab"
                             aria-selected={activeTabLeft === tab}
                         >
@@ -141,7 +166,7 @@ export default function Kanban() {
                                         <div className="flex flex-col pb-2 overflow-hidden">
                                             {filtertasks(cat.title).length > 0 ? (
                                                 filtertasks(cat.title).map((taskItem, index) => (
-                                                    <Cards key={index} task={taskItem} />
+                                                    <Cards key={index} task={taskItem} onDelete={deleteTask} />
                                                 ))
                                             ) : (
                                                 <p className="text-center text-red-500 font-semibold m-10">No Task is Assigned</p>

@@ -1,6 +1,11 @@
 import React from 'react'
-export default function Cards({ task }) {
-    console.log("Card task",task)
+import { Link } from 'react-router-dom';
+export default function Cards({ task, onDelete }) {
+    console.log("Task",task)
+    const handleDelete = () => {
+        // Call the onDelete function passed from the parent component
+        onDelete(task.id);
+    };
     
     return (
      
@@ -18,7 +23,7 @@ export default function Cards({ task }) {
                                 </svg>
                                 <span className="ml-1 leading-none">{task.deadline}</span>
                             </div>
-                            <div className="relative flex items-center  w-5 h-3 ml-4">
+                            <Link to={`../edittask/${task.id}`} className="relative flex items-center  w-5 h-3 ml-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
                                     <path fill="#f5ce85" d="M4.913 21.803L6.716 20 10.236 23.065 8.214 25.088 2.451 27.549z"></path>
                                     <path fill="#967a44" d="M6.74,20.683l2.764,2.407l-1.575,1.575l-4.527,1.933l1.933-4.511L6.74,20.683 M6.693,19.316 l-2.202,2.202L1.5,28.499l6.999-2.989l2.469-2.469L6.693,19.316L6.693,19.316z"></path>
@@ -34,8 +39,8 @@ export default function Cards({ task }) {
                                         <path fill="#788b9c" d="M23.348,4.065l2.586,2.586L24.275,8.31l-2.586-2.586L23.348,4.065 M23.348,2.651l-3.073,3.073l4,4 l3.073-3.073L23.348,2.651L23.348,2.651z"></path>
                                     </g>
                                 </svg>
-                            </div>
-                            <div className="flex items-center w-5 h-3 ml-4">
+                            </Link>
+                            <button className="flex items-center w-5 h-3 ml-4" onClick={handleDelete}>
                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 100 100">
                                     <path fill="#f37e98" d="M25,30l3.645,47.383C28.845,79.988,31.017,82,33.63,82h32.74c2.613,0,4.785-2.012,4.985-4.617L75,30"></path>
                                     <path fill="#f15b6c" d="M65 38v35c0 1.65-1.35 3-3 3s-3-1.35-3-3V38c0-1.65 1.35-3 3-3S65 36.35 65 38zM53 38v35c0 1.65-1.35 3-3 3s-3-1.35-3-3V38c0-1.65 1.35-3 3-3S53 36.35 53 38zM41 38v35c0 1.65-1.35 3-3 3s-3-1.35-3-3V38c0-1.65 1.35-3 3-3S41 36.35 41 38zM77 24h-4l-1.835-3.058C70.442 19.737 69.14 19 67.735 19h-35.47c-1.405 0-2.707.737-3.43 1.942L27 24h-4c-1.657 0-3 1.343-3 3s1.343 3 3 3h54c1.657 0 3-1.343 3-3S78.657 24 77 24z"></path>
@@ -44,7 +49,7 @@ export default function Cards({ task }) {
                                     <path fill="#1f212b" d="M61.5 25h-36c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h36c.276 0 .5.224.5.5S61.776 25 61.5 25zM73.5 25h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h5c.276 0 .5.224.5.5S73.776 25 73.5 25zM66.5 25h-2c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h2c.276 0 .5.224.5.5S66.776 25 66.5 25zM50 76c-1.654 0-3-1.346-3-3V38c0-1.654 1.346-3 3-3s3 1.346 3 3v25.5c0 .276-.224.5-.5.5S52 63.776 52 63.5V38c0-1.103-.897-2-2-2s-2 .897-2 2v35c0 1.103.897 2 2 2s2-.897 2-2v-3.5c0-.276.224-.5.5-.5s.5.224.5.5V73C53 74.654 51.654 76 50 76zM62 76c-1.654 0-3-1.346-3-3V47.5c0-.276.224-.5.5-.5s.5.224.5.5V73c0 1.103.897 2 2 2s2-.897 2-2V38c0-1.103-.897-2-2-2s-2 .897-2 2v1.5c0 .276-.224.5-.5.5S59 39.776 59 39.5V38c0-1.654 1.346-3 3-3s3 1.346 3 3v35C65 74.654 63.654 76 62 76z"></path>
                                     <path fill="#1f212b" d="M59.5 45c-.276 0-.5-.224-.5-.5v-2c0-.276.224-.5.5-.5s.5.224.5.5v2C60 44.776 59.776 45 59.5 45zM38 76c-1.654 0-3-1.346-3-3V38c0-1.654 1.346-3 3-3s3 1.346 3 3v35C41 74.654 39.654 76 38 76zM38 36c-1.103 0-2 .897-2 2v35c0 1.103.897 2 2 2s2-.897 2-2V38C40 36.897 39.103 36 38 36z"></path>
                                 </svg>
-                            </div>
+                            </button>
                             <img className="w-6 h-6 ml-auto rounded-full" src="https://randomuser.me/api/portraits/women/26.jpg" alt="user" />
                         </div>
                     </div>

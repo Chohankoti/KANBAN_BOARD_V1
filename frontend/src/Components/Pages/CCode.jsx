@@ -9,18 +9,18 @@ export default function CCode() {
   let username = sessionStorage.getItem('username');
   const [codes, setCodes] = useState([]);
   const [newCode, setNewCode] = useState({ ccode: '', tag: '', owner: username });
-  const [showShareOptions, setShowShareOptions] = useState(false);
+  const [toggle, settoggle] = useState(false);
   const [editingCode, setEditingCode] = useState(null);
 
   const handleEdit = (code) => {
     setEditingCode(code);
     console.log("Editing data: ", code)
-    setShowShareOptions(true);
+    settoggle(true);
   };
 
   const handleCloseUpdate = () => {
     setEditingCode(null);
-    setShowShareOptions(false);
+    settoggle(false);
     fetchCodes();
   };
 
@@ -94,7 +94,7 @@ export default function CCode() {
           <div className="text-sm font-medium text-gray-900">{code.tag}</div>
         </td>
         <td className="whitespace-nowrap text-left text-sm font-medium">
-          {!showShareOptions && (
+          {!toggle && (
             <button
               onClick={() => handleEdit(code)}
               className="text-indigo-600 hover:text-indigo-900 mr-1"
@@ -168,7 +168,7 @@ export default function CCode() {
               {renderCodes()}
             </tbody>
           </table>
-          {showShareOptions && <UpdateCCode code={editingCode} onClose={handleCloseUpdate} />}
+          {toggle && <UpdateCCode code={editingCode} onClose={handleCloseUpdate} />}
         </div>
       </div>
     </div>
