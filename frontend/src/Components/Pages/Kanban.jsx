@@ -64,7 +64,7 @@ export default function Kanban() {
 
     const fetchAccessControls = async (owner) => {
         try {
-            const response = await axios.get(`http://localhost:8081/accesscontrols/filterbyusername/${owner}`);
+            const response = await axios.get(`http://localhost:8081/accesscontrols/filterbyusername/${username}`);
             setac(response.data);
             setActiveTabLeft(response.data[0]);
         } catch (error) {
@@ -168,17 +168,20 @@ export default function Kanban() {
                                         <div className="flex items-center h-10 px-2">
                                             <span className="block text-sm font-semibold">{cat.title}</span>
                                             <span className="flex items-center justify-center w-5 h-5 ml-2 text-sm font-semibold text-indigo-500 bg-white rounded bg-opacity-30">6</span>
-                                            <button className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"
-                                                onClick={() => AddTask(cat.title, activeTabLeft.ccode)}>
-                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                                </svg>
-                                            </button>
+                                            {acdata.createaccess && (
+                                                <button className="flex items-center justify-center w-6 h-6 ml-auto text-indigo-500 rounded hover:bg-indigo-500 hover:text-indigo-100"
+                                                    onClick={() => AddTask(cat.title, activeTabLeft.ccode)}>
+                                                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                    </svg>
+                                                </button>
+                                            )}
+
                                         </div>
                                         <div className="flex flex-col pb-2 overflow-hidden">
                                             {filtertasks(cat.title).length > 0 ? (
                                                 filtertasks(cat.title).map((taskItem, index) => (
-                                                    <Cards key={index} task={taskItem} onDelete={deleteTask} />
+                                                    <Cards key={index} task={taskItem} access={acdata} onDelete={deleteTask} />
                                                 ))
                                             ) : (
                                                 <p className="text-center text-red-500 font-semibold m-10">No Task is Assigned</p>
