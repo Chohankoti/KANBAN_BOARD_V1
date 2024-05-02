@@ -85,6 +85,14 @@ export default function Kanban() {
         return task.filter((task) => task.category === category);
     }
 
+    const accessfilter = (owner) => {
+        if (!activeTabTop) {
+            return []; 
+        }
+        return ac.filter((data) => data.owner === owner);
+    };
+    
+
     const deleteTask = async (taskId) => {
         try {
             await axios.delete(`http://localhost:8081/tasks/${taskId}`);
@@ -154,7 +162,7 @@ export default function Kanban() {
                         </div>
                     </div>
 
-                    {ac.map((acdata, index) => (
+                    {activeTabTop && accessfilter(activeTabTop.owner).map((acdata, index) => (
                         <div
                             key={index}
                             className={`${activeTabLeft?.id === acdata.id
