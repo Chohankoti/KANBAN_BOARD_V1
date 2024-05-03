@@ -55,18 +55,28 @@ export default function Kanban() {
     const fetchDistinctOwners = async () => {
         try {
             const response = await axios.get(`http://localhost:8081/accesscontrols/getdistinctownersbyusername/${username}`);
-            setdistinctowners(response.data);
-            setActiveTabTop(response.data[0]);
+            const data = response.data;
+            const userOwnerIndex = data.findIndex(owner => owner.owner === username);
+            if (userOwnerIndex !== -1) {
+                const userOwner = data.splice(userOwnerIndex, 1)[0];
+                setdistinctowners([userOwner, ...data]);
+                setActiveTabTop(userOwner);
+            } else {
+                setdistinctowners(data);
+                setActiveTabTop(data[0]);
+            }
         } catch (error) {
             console.error('Error fetching distinct owners:', error);
         }
     };
+    
 
     const fetchAccessControls = async (owner) => {
         try {
             const response = await axios.get(`http://localhost:8081/accesscontrols/filterbyusername/${username}`);
-            setac(response.data);
-            setActiveTabLeft(response.data[0]);
+            const filteredTabs = response.data.filter(data => data.owner === owner);
+            setac(filteredTabs);
+            setActiveTabLeft(filteredTabs[0]);
         } catch (error) {
             console.error('Error fetching access controls:', error);
         }
@@ -85,13 +95,8 @@ export default function Kanban() {
         return task.filter((task) => task.category === category);
     }
 
-    const accessfilter = (owner) => {
-        if (!activeTabTop) {
-            return []; 
-        }
-        return ac.filter((data) => data.owner === owner);
-    };
-    
+
+
 
     const deleteTask = async (taskId) => {
         try {
@@ -109,7 +114,7 @@ export default function Kanban() {
 
 
     return (
-        <div className="flex flex-col  text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
+        <div className="flex flex-col h-screen text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
             {/* Top Tabs */}
             <div className="flex justify-center mt-4 py-1">
                 {distinctowners.map((tab, index) => (
@@ -122,9 +127,9 @@ export default function Kanban() {
                         onClick={() => setActiveTabTop(tab)}
                         role="tab"
                         aria-selected={activeTabTop === tab}
-                        style={{ width: `${tab.length * 10 + 100}px` }} // Adjust the width dynamically
+                        style={{ width: `${tab.length * 10 + 100}px` }}
                     >
-                        {tab.owner}
+                        {tab.owner === username ? "My Codes":tab.owner}
                     </button>
                 ))}
             </div>
@@ -162,7 +167,7 @@ export default function Kanban() {
                         </div>
                     </div>
 
-                    {activeTabTop && accessfilter(activeTabTop.owner).map((acdata, index) => (
+                    {ac.map((acdata, index) => (
                         <div
                             key={index}
                             className={`${activeTabLeft?.id === acdata.id
