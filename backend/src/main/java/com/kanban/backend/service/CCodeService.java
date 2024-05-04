@@ -48,8 +48,8 @@ public class CCodeService {
                 .build();
     }
 
-    public Object getCCodeById(int ccodeId) {
-        Optional<CCode> optionalCCode = ccodeRepository.findById(ccodeId);
+    public Object getCCodeById(long ccodeId) {
+        Optional<CCode> optionalCCode = ccodeRepository.findByCcode(ccodeId);
         if (optionalCCode.isPresent()) {
             return optionalCCode.get();
         } else {

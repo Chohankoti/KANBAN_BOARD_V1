@@ -113,7 +113,7 @@ export default function Members() {
   return (
     <div className="flex flex-col h-screen text-gray-700 bg-gradient-to-tr from-blue-200 via-indigo-200 to-pink-200">
       <div className="px-10 mt-3">
-        <h1 className="text-2xl font-bold flex justify-center items-center">Community Members of </h1>
+        <h1 className="text-2xl font-bold flex justify-center items-center">Community Members</h1>
       </div>
       <div>
         <div className="flex justify-center mt-4 py-1">
@@ -135,7 +135,7 @@ export default function Members() {
               key={index}
               className={`${activeTab?.id === data.id ? 'block transition-all ease-in-out duration-700 transition-leave transition-leave-active' : 'invisible'}`}
             >
-              <div className="flex flex-col justify-center items-center overflow-x-auto mt-5">
+              <div className="flex flex-col justify-center items-center  mt-5">
                 <div className="mb-4">
                   <Link to={`/addmember/${activeTab.ccode}`} className="text-green-600 hover:text-indigo-900">
                     <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Add</button>

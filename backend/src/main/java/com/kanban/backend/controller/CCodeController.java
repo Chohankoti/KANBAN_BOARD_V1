@@ -33,7 +33,7 @@ public class CCodeController {
 
     @GetMapping("/{ccodeId}")
     @ResponseStatus(HttpStatus.OK)
-    public Object getCCodeById(@PathVariable int ccodeId) {
+    public Object getCCodeById(@PathVariable long ccodeId) {
         return ccodeService.getCCodeById(ccodeId);
     }
     

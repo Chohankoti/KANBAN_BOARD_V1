@@ -96,8 +96,6 @@ export default function Kanban() {
     }
 
 
-
-
     const deleteTask = async (taskId) => {
         try {
             await axios.delete(`http://localhost:8081/tasks/${taskId}`);
@@ -110,6 +108,16 @@ export default function Kanban() {
 
     const AddTask = (category, ccode) => {
         navigation(`../addtask/${category}/${ccode}`);
+    }
+
+    const githubrepo = async (ccode) => {
+        try {
+            const response = await axios.get(`http://localhost:8081/ccodes/${ccode}`);
+            const gitrepolink = `https://github.com/${response.data.tag}`
+            window.open(gitrepolink, '_blank');
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
     }
 
 
@@ -161,9 +169,9 @@ export default function Kanban() {
                             <h1 className="text-2xl font-bold mb-4 text-center">{activeTabTop && activeTabLeft ? `${activeTabTop.owner} Team Project Board of ${activeTabLeft.ccode} ` : ''}</h1>
                         </div>
                         <div>
-                            <a href={`https://github.com/`}>
+                            <button onClick={() => githubrepo(activeTabLeft.ccode)}>
                                 <FaGithub className="h-8 w-9" />
-                            </a>
+                            </button>
                         </div>
                     </div>
 
